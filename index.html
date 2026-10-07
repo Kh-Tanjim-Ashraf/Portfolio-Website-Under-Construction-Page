@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Site Under Construction - BB-8 on Duty</title>
+    <style>
+      :root {
+        --orange: #ff7800;
+        --dark-metal: #2b2d42;
+        --light-metal: #8d99ae;
+        --white: #edf2f4;
+        --black: #141414;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background-color: var(--black);
+        color: var(--white);
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        overflow-x: hidden;
+        position: relative;
+      }
+
+      /* Starry background effect */
+      .stars {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image:
+          radial-gradient(2px 2px at 20px 30px, #eee, rgba(0, 0, 0, 0)),
+          radial-gradient(2px 2px at 40px 70px, #fff, rgba(0, 0, 0, 0)),
+          radial-gradient(1px 1px at 90px 40px, #ddd, rgba(0, 0, 0, 0));
+        background-repeat: repeat;
+        background-size: 200px 200px;
+        opacity: 0.3;
+        z-index: 1;
+      }
+
+      .container {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        padding: 2rem;
+        max-width: 700px;
+      }
+
+      h1,
+      h2 {
+        margin-bottom: 1rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        animation: fadeInDown 1.2s ease-out;
+        color: var(--white);
+        text-shadow: 0 0 10px rgba(255, 120, 0, 0.5);
+      }
+
+      h1 {
+        font-size: clamp(2rem, 5vw, 1rem);
+      }
+
+      h2 {
+        font-size: clamp(2rem, 5vw, 3rem);
+      }
+
+      p {
+        font-size: clamp(1rem, 2vw, 1.2rem);
+        color: var(--light-metal);
+        margin-bottom: 2.5rem;
+        animation: fadeInUp 1.2s ease-out;
+      }
+
+      /* BB-8 Container & Animation */
+      .bb8-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 3rem 0;
+        height: 220px;
+        position: relative;
+      }
+
+      .bb8 {
+        width: 150px;
+        height: 200px;
+        position: relative;
+        animation: float 3s ease-in-out infinite;
+      }
+
+      /* BB-8 Head */
+      .head {
+        position: absolute;
+        top: 0;
+        left: 35px;
+        width: 80px;
+        height: 45px;
+        background: linear-gradient(
+          to bottom,
+          #fff 60%,
+          var(--light-metal) 100%
+        );
+        border-radius: 40px 40px 5px 5px;
+        z-index: 5;
+        box-shadow: inset 0 -3px 5px rgba(0, 0, 0, 0.2);
+        animation: shakeHead 4s ease-in-out infinite;
+      }
+
+      .head::before {
+        content: "";
+        position: absolute;
+        top: 8px;
+        left: 25px;
+        width: 30px;
+        height: 12px;
+        background: var(--dark-metal);
+        border-radius: 3px;
+      }
+
+      .optic {
+        position: absolute;
+        top: 12px;
+        left: 35px;
+        width: 12px;
+        height: 12px;
+        background: var(--black);
+        border: 2px solid var(--orange);
+        border-radius: 50%;
+      }
+
+      /* BB-8 Body (Spherical) */
+      .body {
+        position: absolute;
+        top: 42px;
+        left: 15px;
+        width: 120px;
+        height: 120px;
+        background: #fff;
+        border-radius: 50%;
+        overflow: hidden;
+        box-shadow:
+          inset -15px -15px 25px rgba(0, 0, 0, 0.4),
+          0 5px 15px rgba(0, 0, 0, 0.3);
+        animation: rollBody 3s linear infinite;
+        border: 3px solid #ddd;
+      }
+
+      /* Body pattern segments */
+      .body::before {
+        content: "";
+        position: absolute;
+        top: -10px;
+        left: 25px;
+        width: 70px;
+        height: 140px;
+        background: radial-gradient(circle, var(--orange) 30%, transparent 31%);
+        background-size: 20px 20px;
+        transform: rotate(20deg);
+      }
+
+      /* Ground shadow */
+      .shadow {
+        position: absolute;
+        bottom: 20px;
+        width: 100px;
+        height: 15px;
+        background: rgba(0, 0, 0, 0.6);
+        border-radius: 50%;
+        animation: scaleShadow 3s ease-in-out infinite;
+      }
+
+      /* Progress Bar / Loader */
+      .progress-bar {
+        width: 100%;
+        height: 6px;
+        background: #2b2d42;
+        border-radius: 3px;
+        overflow: hidden;
+        margin: 0 auto;
+        max-width: 400px;
+      }
+
+      .progress-fill {
+        width: 65%;
+        height: 100%;
+        background: var(--orange);
+        border-radius: 3px;
+        animation: pulseProgress 2s infinite ease-in-out;
+      }
+
+      .status-text {
+        margin-top: 10px;
+        font-size: 0.9rem;
+        color: var(--orange);
+        font-weight: bold;
+        letter-spacing: 1px;
+      }
+
+      /* Keyframe Animations */
+      @keyframes rollBody {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      @keyframes shakeHead {
+        0%,
+        100% {
+          transform: rotate(0deg);
+        }
+        25% {
+          transform: rotate(5deg);
+        }
+        75% {
+          transform: rotate(-5deg);
+        }
+      }
+
+      @keyframes scaleShadow {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 0.6;
+        }
+        50% {
+          transform: scale(0.8);
+          opacity: 0.3;
+        }
+      }
+
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes pulseProgress {
+        0% {
+          opacity: 0.6;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0.6;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="stars"></div>
+
+    <div class="container">
+      <h1>Tanjim's Portfolio</h1>
+      <h2>Currently Upgrading</h2>
+      <p>
+        His droids are working hard behind the scenes to bring something amazing
+        to life. Stay tuned!
+      </p>
+
+      <div class="bb8-container">
+        <div class="bb8">
+          <div class="head">
+            <div class="optic"></div>
+          </div>
+          <div class="body"></div>
+        </div>
+        <div class="shadow"></div>
+      </div>
+
+      <div class="progress-bar">
+        <div class="progress-fill"></div>
+      </div>
+      <div class="status-text">MAINTENANCE IN PROGRESS...</div>
+    </div>
+  </body>
+</html>
